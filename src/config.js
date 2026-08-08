@@ -1,4 +1,4 @@
-export const TELEGRAM_BOT_URL = 'https://t.me/your_bot'
+export const TELEGRAM_BOT_URL = 'https://t.me/techgottbenzzbot'
 export const TELEGRAM_PERSONAL_URL = 'https://t.me/techgottbenzz'
 
 export const SITE_CONFIG = {
