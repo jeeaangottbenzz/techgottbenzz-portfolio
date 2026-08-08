@@ -6,7 +6,6 @@ import {
   ArrowUpRight,
   Check,
   ChevronRight,
-  CircleDot,
   Database,
   Globe2,
   GraduationCap,
@@ -298,8 +297,7 @@ function Portfolio() {
           <article className={`project-card${project.featured ? ' featured-project' : ''}${project.visual === 'lume' ? ' lume-project' : ''}${project.visual === 'nova' ? ' nova-project' : ''}${project.visual === 'elena' ? ' elena-project' : ''}`} data-reveal style={{ '--delay': `${index * 80}ms` }} key={project.title}>
             <ProjectVisual type={project.visual} />
             <div className="project-meta">
-              <span className="demo-label"><CircleDot aria-hidden="true" /> Демонстрационный проект</span>
-              <span>0{index + 1}</span>
+              <span className="project-number">0{index + 1}</span>
             </div>
             <h3>{project.title}</h3>
             {project.type && <p className="project-type">{project.type}</p>}
@@ -412,7 +410,6 @@ function Footer() {
       <Brand />
       <nav aria-label="Контакты">
         <a href={SITE_CONFIG.telegram.url} target="_blank" rel="noreferrer">{SITE_CONFIG.telegram.label}<ArrowUpRight aria-hidden="true" /></a>
-        <a href={`mailto:${SITE_CONFIG.email.address}`}>{SITE_CONFIG.email.label}<ArrowUpRight aria-hidden="true" /></a>
       </nav>
       <p>© 2026 {SITE_CONFIG.brand.name}</p>
     </footer>
