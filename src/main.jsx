@@ -20,7 +20,7 @@ import {
   UserRound,
   Workflow,
 } from 'lucide-react'
-import { SITE_CONFIG } from './config'
+import { SITE_CONFIG, TELEGRAM_BOT_URL, TELEGRAM_PERSONAL_URL } from './config'
 import './styles.css'
 
 const services = [
@@ -210,7 +210,7 @@ function Hero() {
       <div className="one-bottom">
         <p>Автоматизирую заявки, продажи и рутину.<br />От идеи до работающего проекта.</p>
         <div className="actions dark">
-          <a className="primary" href={SITE_CONFIG.telegram.url} target="_blank" rel="noreferrer">
+          <a className="primary" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
             Обсудить проект <ArrowRight aria-hidden="true" />
           </a>
           <a className="secondary" href="#portfolio">
@@ -397,8 +397,8 @@ function FinalCTA() {
       <div className="eyebrow" data-reveal><Sparkles aria-hidden="true" /> ГОТОВЫ ОБСУДИТЬ ЗАДАЧУ?</div>
       <h2 id="contact-title" data-reveal>Есть идея?<br /><span>Давайте превратим её</span><br />в работающий проект.</h2>
       <div className="actions dark" data-reveal>
-        <a className="primary" href={SITE_CONFIG.telegram.url} target="_blank" rel="noreferrer">Обсудить проект <ArrowUpRight aria-hidden="true" /></a>
-        <a className="secondary" href={SITE_CONFIG.telegram.botUrl} target="_blank" rel="noreferrer">Открыть Telegram-бота <Send aria-hidden="true" /></a>
+        <a className="primary" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">Обсудить проект <ArrowUpRight aria-hidden="true" /></a>
+        <a className="secondary" href={TELEGRAM_PERSONAL_URL} target="_blank" rel="noopener noreferrer">Написать лично <Send aria-hidden="true" /></a>
       </div>
     </section>
   )
@@ -409,7 +409,7 @@ function Footer() {
     <footer className="site-footer">
       <Brand />
       <nav aria-label="Контакты">
-        <a href={SITE_CONFIG.telegram.url} target="_blank" rel="noreferrer">{SITE_CONFIG.telegram.label}<ArrowUpRight aria-hidden="true" /></a>
+        <a href={TELEGRAM_PERSONAL_URL} target="_blank" rel="noopener noreferrer">{SITE_CONFIG.telegram.label}<ArrowUpRight aria-hidden="true" /></a>
       </nav>
       <p>© 2026 {SITE_CONFIG.brand.name}</p>
     </footer>
