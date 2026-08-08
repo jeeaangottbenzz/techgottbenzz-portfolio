@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from ..config import Config
-from ..database import Database
+from ..database import Database, LeadRateLimitError
 from ..formatters import admin_lead_message, lead_summary
 from ..keyboards import (
     BUDGETS,
@@ -160,7 +160,18 @@ async def confirm_lead(
         "user_id": callback.from_user.id,
         "username": callback.from_user.username,
     }
-    lead_id = await db.create_lead(payload)
+    try:
+        lead_id = await db.create_lead(payload)
+    except LeadRateLimitError:
+        await state.clear()
+        if callback.message:
+            await callback.message.edit_text(
+                "Заявка уже отправлена. Чтобы защитить бота от повторных отправок, "
+                "новую заявку можно оставить через минуту.",
+                reply_markup=back_to_menu_keyboard(),
+            )
+        await callback.answer("Заявка уже принята", show_alert=True)
+        return
     await state.clear()
 
     if callback.message:
@@ -185,4 +196,3 @@ async def confirm_lead(
             lead_id,
         )
     await callback.answer("Заявка отправлена")
-

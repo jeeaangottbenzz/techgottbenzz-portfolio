@@ -4,6 +4,13 @@ from pathlib import Path
 import aiosqlite
 
 
+LEAD_COOLDOWN_SECONDS = 60
+
+
+class LeadRateLimitError(RuntimeError):
+    """Raised when one Telegram user submits leads too quickly."""
+
+
 class Database:
     def __init__(self, path: Path | str) -> None:
         self.path = Path(path)
@@ -37,6 +44,22 @@ class Database:
 
     async def create_lead(self, data: Mapping[str, object]) -> int:
         async with aiosqlite.connect(self.path) as connection:
+            await connection.execute("BEGIN IMMEDIATE")
+            cursor = await connection.execute(
+                """
+                SELECT 1
+                FROM leads
+                WHERE user_id = ?
+                  AND created_at >= datetime('now', ?)
+                LIMIT 1
+                """,
+                (data["user_id"], f"-{LEAD_COOLDOWN_SECONDS} seconds"),
+            )
+            if await cursor.fetchone():
+                raise LeadRateLimitError(
+                    f"Повторная заявка доступна через {LEAD_COOLDOWN_SECONDS} секунд."
+                )
+
             cursor = await connection.execute(
                 """
                 INSERT INTO leads (
@@ -82,4 +105,3 @@ class Database:
             connection.row_factory = aiosqlite.Row
             cursor = await connection.execute(query, parameters)
             return [dict(row) for row in await cursor.fetchall()]
-

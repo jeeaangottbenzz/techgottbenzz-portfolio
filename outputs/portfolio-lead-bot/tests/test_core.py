@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 import app
-from app.database import Database
+from app.database import Database, LeadRateLimitError
 from app.formatters import admin_lead_message, lead_summary
 from app.keyboards import BUDGETS, SERVICES
 
@@ -69,7 +69,10 @@ class DatabaseTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(stats["total"], 1)
         self.assertEqual(stats["new"], 1)
 
+        with self.assertRaises(LeadRateLimitError):
+            await self.database.create_lead(payload)
+        self.assertEqual(len(await self.database.recent()), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
-
