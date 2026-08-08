@@ -124,6 +124,26 @@ const projects = [
     visual: 'nova',
     featured: true,
   },
+  {
+    title: 'ELENA MOROZOVA',
+    type: 'Сайт-визитка частного специалиста',
+    description: 'Современный адаптивный сайт-визитка психолога-консультанта с услугами, ценами, FAQ и формой заявки.',
+    functions: [
+      'Адаптивный дизайн',
+      'Первый продающий экран',
+      'Направления работы',
+      'Услуги и цены',
+      'Этапы работы',
+      'FAQ',
+      'Форма заявки',
+      'Telegram и телефон',
+      'SEO-метаданные',
+    ],
+    details: 'Демонстрационный сайт для частного специалиста. Проект показывает, как можно компактно представить услуги, стоимость, формат работы и контакты и привести посетителя к заявке.',
+    demoUrl: 'https://elena-morozova-demo-production.up.railway.app',
+    visual: 'elena',
+    featured: true,
+  },
 ]
 
 const process = [
@@ -265,6 +285,7 @@ function ProjectVisual({ type }) {
   if (type === 'catalog') return <div className="visual catalog-ui" aria-hidden="true"><div className="ui-bar"><i /><i /><i /></div><div className="catalog-tabs"><span className="active">Все</span><span>Популярное</span><span>Новинки</span></div><div className="catalog-cards"><i /><i /><i /></div><div className="catalog-info"><b>Каталог</b><span>Выберите категорию →</span></div></div>
   if (type === 'lume') return <div className="visual lume-ui" aria-hidden="true"><div className="ui-bar"><i /><i /><i /></div><div className="lume-mark"><span>LUMÉ</span><b>BEAUTY</b></div><div className="lume-flow"><span>Услуга</span><i /><span>Мастер</span><i /><span>Время</span><i /><span>Готово</span></div></div>
   if (type === 'nova') return <div className="visual lume-ui nova-ui" aria-hidden="true"><div className="ui-bar"><i /><i /><i /></div><div className="lume-mark nova-mark"><span>NOVA</span><b>STORE</b></div><div className="lume-flow"><span>Каталог</span><i /><span>Корзина</span><i /><span>Доставка</span><i /><span>Заказ</span></div></div>
+  if (type === 'elena') return <div className="visual elena-ui" aria-hidden="true"><div className="elena-browser"><div className="elena-browser-bar"><span><i /><i /><i /></span><b>elena-morozova.demo</b><em>WEB</em></div><div className="elena-page"><div className="elena-copy"><span>ПСИХОЛОГ-КОНСУЛЬТАНТ</span><strong>Спокойный формат<br />для важного разговора</strong><i /></div><div className="elena-panel"><span>Услуги</span><span>Форматы</span><span>FAQ</span><b>Записаться</b></div></div></div></div>
   return <div className="visual website-ui" aria-hidden="true"><div className="browser-bar"><i /><span>portfolio.site</span><i /></div><div className="website-copy"><span>СПЕЦИАЛИСТ</span><b>Помогаю решить<br />вашу задачу</b><i /></div><div className="website-side"><i /><i /><i /></div></div>
 }
 
@@ -274,7 +295,7 @@ function Portfolio() {
       <SectionHeader number="03" eyebrow="Как это может выглядеть" title="Портфолио" description="Концепции показывают возможную логику и подачу. Каждый реальный проект собирается под свою задачу." />
       <div className="projects-grid">
         {projects.map((project, index) => (
-          <article className={`project-card${project.featured ? ' featured-project' : ''}${project.visual === 'lume' ? ' lume-project' : ''}${project.visual === 'nova' ? ' nova-project' : ''}`} data-reveal style={{ '--delay': `${index * 80}ms` }} key={project.title}>
+          <article className={`project-card${project.featured ? ' featured-project' : ''}${project.visual === 'lume' ? ' lume-project' : ''}${project.visual === 'nova' ? ' nova-project' : ''}${project.visual === 'elena' ? ' elena-project' : ''}`} data-reveal style={{ '--delay': `${index * 80}ms` }} key={project.title}>
             <ProjectVisual type={project.visual} />
             <div className="project-meta">
               <span className="demo-label"><CircleDot aria-hidden="true" /> Демонстрационный проект</span>
@@ -284,11 +305,22 @@ function Portfolio() {
             {project.type && <p className="project-type">{project.type}</p>}
             {project.description && <p className="project-description">{project.description}</p>}
             <ul className="tag-list" aria-label="Функции проекта">{project.functions.map(item => <li key={item}>{item}</li>)}</ul>
-            {project.details && (
+            {project.details && !project.demoUrl && (
               <details className="project-details">
                 <summary>Подробнее <ChevronRight aria-hidden="true" /></summary>
                 <p>{project.details}</p>
               </details>
+            )}
+            {project.details && project.demoUrl && (
+              <div className="project-actions">
+                <details className="project-details">
+                  <summary>Подробнее <ChevronRight aria-hidden="true" /></summary>
+                  <p>{project.details}</p>
+                </details>
+                <a className="project-demo-link" href={project.demoUrl} target="_blank" rel="noreferrer">
+                  Открыть демо <ArrowUpRight aria-hidden="true" />
+                </a>
+              </div>
             )}
           </article>
         ))}
